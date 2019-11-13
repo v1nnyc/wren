@@ -7,11 +7,14 @@ from selenium.webdriver.common.by import By
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.chrome.options import Options
 
+import smtplib, ssl
+
+port = 465  # For SSL
 
 # method to webscrabe humane society to see if wren has been put up for adoption
 def isWrenAvailable():
     # TODO replace with wrens ID
-    pet_id_to_search = 633418
+    pet_id_to_search = 228652
 
     options = Options()
     options.add_argument("--headless")
@@ -27,7 +30,7 @@ def isWrenAvailable():
     try:
         WebDriverWait(driver, delay).until(EC.presence_of_element_located((By.CLASS_NAME, "petId")))
     except TimeoutException:
-        pass
+        return False
 
     content = driver.page_source
     soup = BeautifulSoup(content, features="html.parser")
@@ -38,6 +41,9 @@ def isWrenAvailable():
 
 def emailMe():
     print("emailing.. lol")
+    with smtplib.SMTP_SSL("smtp.gmail.com", port, context=ssl.create_default_context()) as server:
+        server.login("vcannall@gmail.com", "vtslgyxfmzqqewvq")
+        server.sendmail("vcannall@gmail.com", "vcannall@gmail.com", "WREN IS AVAILABLE")
 
 
 # main
