@@ -16,18 +16,17 @@ port = 465  # For SSL
 
 pet_id_to_search = 633418
 
+# selenium config
 chrome_driver = ChromeDriverManager().install()
+options = Options()
+options.add_argument("--headless")
+options.add_argument("--disable-gpu")
+
+driver = webdriver.Chrome(chrome_driver, options=options)
 
 
 # method to webscrabe humane society to see if wren has been put up for adoption
 def isWrenAvailable():
-    # TODO replace with wrens ID
-
-    options = Options()
-    options.add_argument("--headless")
-    options.add_argument("--disable-gpu")
-
-    driver = webdriver.Chrome(chrome_driver, options=options)
     driver.get(
         "https://www.sdhumane.org/adopt/available-pets/?petType=ALL&physicalLocationId=ALL&genderSearch=All&searchAge=All&searchName=&searchId={}".format(
             pet_id_to_search
