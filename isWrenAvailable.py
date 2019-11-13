@@ -19,6 +19,7 @@ pet_id_to_search = 633418
 options = Options()
 options.add_argument("--headless")
 options.add_argument("--disable-gpu")
+options.add_argument("--no-sandbox")
 driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
 
 
@@ -47,7 +48,7 @@ def emailMe():
         server.login("vcannall@gmail.com", "vtslgyxfmzqqewvq")
         server.sendmail(
             "vcannall@gmail.com",
-            "vcannall@gmail.com",
+            ["vcannall@gmail.com", "helamin@ucsd.edu"],
             """
             https://www.sdhumane.org/adopt/available-pets/?petType=ALL&physicalLocationId=ALL&genderSearch=All&searchAge=All&searchName=&searchId={}
             """.format(
