@@ -10,6 +10,8 @@ from selenium.webdriver.chrome.options import Options
 import smtplib
 import ssl
 
+from datetime import datetime
+
 port = 465  # For SSL
 
 pet_id_to_search = 633418
@@ -63,5 +65,6 @@ def emailMe():
 
 # main
 while True:
+    print(datetime.now())
     if isWrenAvailable():
         emailMe()
