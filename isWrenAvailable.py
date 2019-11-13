@@ -68,3 +68,4 @@ while True:
     print(datetime.now())
     if isWrenAvailable():
         emailMe()
+        break
