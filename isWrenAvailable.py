@@ -12,17 +12,14 @@ import ssl
 
 from datetime import datetime
 
-port = 465  # For SSL
-
-pet_id_to_search = 633418
+# pet_id_to_search = 633418
+pet_id_to_search = 21714  # used for testing an available pet
 
 # selenium config
-chrome_driver = ChromeDriverManager().install()
 options = Options()
 options.add_argument("--headless")
 options.add_argument("--disable-gpu")
-
-driver = webdriver.Chrome(chrome_driver, options=options)
+driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
 
 
 # method to webscrabe humane society to see if wren has been put up for adoption
@@ -35,23 +32,18 @@ def isWrenAvailable():
     delay = 3
     try:
         WebDriverWait(driver, delay).until(EC.presence_of_element_located((By.CLASS_NAME, "petId")))
+        soup = BeautifulSoup(driver.page_source, features="html.parser")
+        for div in soup.findAll("span", {"class": "petId"}):
+            if div.next_element == " #{}".format(pet_id_to_search):
+                driver.stop_client()
+                driver.close()
+                return True
     except TimeoutException:
         return False
 
-    content = driver.page_source
-    soup = BeautifulSoup(content, features="html.parser")
-    for div in soup.findAll("span", {"class": "petId"}):
-        if div.next_element == " #{}".format(pet_id_to_search):
-            driver.stop_client()
-            driver.close()
-            return True
-    driver.stop_client()
-    driver.close()
-
 
 def emailMe():
-    print("emailing.. lol")
-    with smtplib.SMTP_SSL("smtp.gmail.com", port, context=ssl.create_default_context()) as server:
+    with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=ssl.create_default_context()) as server:
         server.login("vcannall@gmail.com", "vtslgyxfmzqqewvq")
         server.sendmail(
             "vcannall@gmail.com",
@@ -65,8 +57,11 @@ def emailMe():
 
 
 # main
-while True:
-    print(datetime.now())
+i = 1
+while 1 > 0:
+    print(datetime.now(), i)
+    i += 1
     if isWrenAvailable():
+        print("Wren was made available at {}".format(datetime.now()))
         emailMe()
         break
