@@ -20,8 +20,8 @@ def isWrenAvailable():
     # TODO replace with wrens ID
 
     options = Options()
-    # options.add_argument("--headless")
-    # options.add_argument("--disable-gpu")
+    options.add_argument("--headless")
+    options.add_argument("--disable-gpu")
 
     driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
     driver.get(
