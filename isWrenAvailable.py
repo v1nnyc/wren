@@ -12,8 +12,8 @@ import ssl
 
 from datetime import datetime
 
-# pet_id_to_search = 633418
-pet_id_to_search = 21714  # used for testing an available pet
+pet_id_to_search = 633418
+# pet_id_to_search = 21714  # used for testing an available pet
 
 # selenium config
 options = Options()
